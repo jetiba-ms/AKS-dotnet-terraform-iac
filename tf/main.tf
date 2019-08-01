@@ -35,7 +35,7 @@ resource "azurerm_subnet" "test" {
 }
 
 resource "azurerm_container_registry" "test" {
-  name                     = "aks-eh-dotnet-acr"
+  name                     = "aksehdotnetacr"
   resource_group_name      = "${azurerm_resource_group.test.name}"
   location                 = "${azurerm_resource_group.test.location}"
   sku                      = "Standard"
