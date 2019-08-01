@@ -57,7 +57,7 @@ stages:
             displayName: 'Retrieve credentials'
 
           - script: |
-              terraform init -backend-config=resource_group_name=statetf -backend-config=storage_account_name=$(TF_STG_NAME) -backend-config=container_name=state -backend-config=key=$(TF_STG_KEY) -backend-config=access_key=$(accessKey) -no-color -input=false
+              terraform init -backend-config=resource_group_name=$(TF_STATE_RG) -backend-config=storage_account_name=$(TF_STG_NAME) -backend-config=container_name=state -backend-config=key=$(TF_STG_KEY) -backend-config=access_key=$(accessKey) -no-color -input=false
               terraform plan -var aks_sp_client_id=$(ARM_CLIENT_ID) -var aks_sp_client_secret=$(ARM_CLIENT_SECRET) -no-color -input=false
               terraform apply -var aks_sp_client_id=$(ARM_CLIENT_ID) -var aks_sp_client_secret=$(ARM_CLIENT_SECRET) -auto-approve
             displayName: 'Terraform Init, Plan and Apply'
@@ -65,7 +65,7 @@ stages:
 
           - task: AzureCLI@1
             inputs:
-              azureSubscription: 'terraformPipelineSP'
+              azureSubscription: 'serviceprincipal'
               scriptLocation: 'scriptPath'
               scriptPath: '$(System.ArtifactsDirectory)/terraform/helm-keda-aadpodid-install.sh'
               workingDirectory: '$(System.ArtifactsDirectory)/terraform'
