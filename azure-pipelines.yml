@@ -65,7 +65,7 @@ stages:
 
           - task: AzureCLI@1
             inputs:
-              azureSubscription: 'terraformPipelineSP'
+              azureSubscription: 'serviceprincipal'
               scriptLocation: 'scriptPath'
               scriptPath: '$(System.ArtifactsDirectory)/terraform/helm-keda-aadpodid-install.sh'
               workingDirectory: '$(System.ArtifactsDirectory)/terraform'
