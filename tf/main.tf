@@ -94,7 +94,7 @@ resource "azurerm_eventhub" "test" {
 }
 
 resource "azurerm_storage_account" "test" {
-  name                     = "aks-eh-dotnet-stg"
+  name                     = "aksehdotnetstg"
   resource_group_name      = "${azurerm_resource_group.test.name}"
   location                 = "${azurerm_resource_group.test.location}"
   account_tier             = "Standard"
