@@ -2,18 +2,18 @@ terraform {
     backend "azurerm" {}
 }
 
+# data "azurerm_client_config" "test" {}
+
 # Configure the Azure Provider
 provider "azurerm" {
   # whilst the `version` attribute is optional, we recommend pinning to a given version of the Provider
   version = "=1.30.1"
 
-  subscription_id = "1a905d91-6704-4934-820e-26d388c9f96a"
-  client_id       = "949e4019-87e8-4a34-b058-fc2751f23988"
-  client_secret   = "${var.aks_sp_client_secret}"
-  tenant_id       = "72f988bf-86f1-41af-91ab-2d7cd011db47"
+  # subscription_id = "1a905d91-6704-4934-820e-26d388c9f96a"
+  # client_id       = "949e4019-87e8-4a34-b058-fc2751f23988"
+  # client_secret   = "${var.aks_sp_client_secret}"
+  # tenant_id       = "72f988bf-86f1-41af-91ab-2d7cd011db47"
 }
-
-data "azurerm_client_config" "test" {}
 
 # Create a resource group
 resource "azurerm_resource_group" "test" {
@@ -78,11 +78,12 @@ resource "azurerm_kubernetes_cluster" "test" {
   }
 }
 
-resource "azurerm_role_assignment" "test" {
-  scope                = "${azurerm_container_registry.test.id}"
-  role_definition_name = "AcrPull"
-  principal_id         = "${data.azurerm_client_config.test.service_principal_object_id}"
-}
+# in this case the SP should be owner on the rg 
+# resource "azurerm_role_assignment" "test" {
+#   scope                = "${azurerm_container_registry.test.id}"
+#   role_definition_name = "AcrPull"
+#   principal_id         = "${data.azurerm_client_config.test.service_principal_object_id}"
+# }
 
 resource "azurerm_eventhub_namespace" "test" {
   name                = "aks-eh-dotnet-ns"
