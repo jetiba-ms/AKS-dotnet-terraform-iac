@@ -13,6 +13,8 @@ provider "azurerm" {
   tenant_id       = "72f988bf-86f1-41af-91ab-2d7cd011db47"
 }
 
+data "azurerm_client_config" "test" {}
+
 # Create a resource group
 resource "azurerm_resource_group" "test" {
   name     = "aks-eh-dotnet-rg"
@@ -74,6 +76,12 @@ resource "azurerm_kubernetes_cluster" "test" {
           enabled = true
       }
   }
+}
+
+resource "azurerm_role_assignment" "test" {
+  scope                = "${azurerm_container_registry.test.id}"
+  role_definition_name = "AcrPull"
+  principal_id         = "${data.azurerm_client_config.test.service_principal_object_id}"
 }
 
 resource "azurerm_eventhub_namespace" "test" {
